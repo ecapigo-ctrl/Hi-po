@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A little question for you</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#4a3034;--rose:#f3a4a6;--rose-dark:#c96b78;--cream:#fffaf7;--line:rgba(74,48,52,.16)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100vh;color:var(--ink);font-family:'DM Sans',sans-serif;background:#f8dfe0;overflow-x:hidden}
+.scene{min-height:100vh;display:grid;place-items:center;padding:24px;position:relative;background:radial-gradient(circle at 12% 18%,#fff7f0 0 9%,transparent 10%),radial-gradient(circle at 88% 82%,#f3c3c7 0 11%,transparent 12%),#f8dfe0}
+.scene:before{content:'♡';position:absolute;top:9%;right:12%;color:rgba(201,107,120,.28);font:72px 'Playfair Display',serif;transform:rotate(12deg)}
+.card{width:min(100%,600px);position:relative;z-index:1;padding:clamp(32px,6vw,64px);background:var(--cream);border:2px solid rgba(255,255,255,.8);border-radius:28px;box-shadow:0 14px 36px rgba(142,78,88,.15);text-align:center;animation:appear .8s ease both}
+.card:before{content:'♥';position:absolute;top:18px;left:24px;color:var(--rose);font-size:18px}.card:after{content:'♥';position:absolute;bottom:18px;right:24px;color:var(--rose);font-size:18px}
+.eyebrow{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--rose-dark);font-weight:700}
+h1{font:700 clamp(46px,8vw,72px)/.98 'Playfair Display',serif;margin:20px auto 16px;max-width:540px}
+h1 em{color:var(--rose-dark);font-style:italic}
+.intro{max-width:420px;margin:0 auto;color:#805f62;line-height:1.65;font-size:15px}
+.promise{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin:26px 0 30px;color:#805f62;font-size:12px}
+.promise span{display:flex;align-items:center;gap:7px}.promise b{color:var(--rose-dark);font-size:18px}
+.buttons{min-height:64px;display:flex;justify-content:center;align-items:center;gap:12px;position:relative}
+button{font:700 13px 'DM Sans',sans-serif;border:0;border-radius:14px;padding:14px 22px;cursor:pointer;transition:transform .2s ease,background .2s ease,box-shadow .2s ease}
+#yes{background:var(--rose-dark);color:white;box-shadow:0 6px 14px rgba(201,107,120,.25)}
+#yes:hover{background:#b85b6a;transform:translateY(-2px)}
+#no{background:#fff;color:var(--ink);border:1px solid var(--line);position:relative;top:-34px}
+#no:hover{background:#fff0eb}
+.fineprint{margin-top:24px;font-size:11px;color:#967d75}
+.answer{display:none;animation:appear .45s ease both}.answer.show{display:block}
+.answer h2{font:600 42px/1.1 'Playfair Display',serif;margin:24px 0 10px}.answer p{color:#725a53;line-height:1.6}
+.restart{margin-top:24px;background:transparent;color:var(--rose-dark);border:1px solid var(--line);padding:10px 18px;font-size:12px}
+.petals{position:absolute;inset:0;overflow:hidden;pointer-events:none}.petal{position:absolute;top:-30px;width:12px;height:12px;border-radius:50% 50% 50% 0;background:rgba(233,137,131,.62);animation:fall linear infinite}.petal:nth-child(1){left:8%;animation-duration:9s;animation-delay:-2s}.petal:nth-child(2){left:23%;animation-duration:12s;animation-delay:-8s;transform:scale(.7)}.petal:nth-child(3){left:47%;animation-duration:10s;animation-delay:-4s;transform:scale(1.2)}.petal:nth-child(4){left:72%;animation-duration:13s;animation-delay:-10s;transform:scale(.65)}.petal:nth-child(5){left:91%;animation-duration:8s;animation-delay:-5s}
+@keyframes fall{to{top:110%;transform:translateX(100px) rotate(480deg)}}@keyframes appear{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@media(max-width:520px){.scene{padding:16px}.card{padding:36px 22px}.buttons{flex-direction:column;min-height:122px}.buttons button{width:min(100%,240px)}.promise{gap:12px}h1{font-size:52px}}
+</style>
+</head>
+<body>
+<main class="scene">
+<div class="petals" aria-hidden="true"><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i></div>
+<section class="card" aria-live="polite">
+<div class="question" id="question">
+<h1>Will you<br><em>marry me?</em></h1>
+<div class="buttons"><button id="yes" type="button">Yes, a thousand times yes</button><button id="no" type="button">Not yet</button></div>
+</div>
+<div class="answer" id="yesAnswer"><div class="eyebrow">The best answer in the world</div><h2>We’re getting married!</h2><p>I love you. Now come here so I can celebrate properly.</p><button class="restart" type="button">Replay the question</button></div>
+<div class="answer" id="noAnswer"><div class="eyebrow">Thank you for being honest</div><h2>That’s okay.</h2><p>There is no pressure here. I care about you and I’m glad you told me how you feel.</p><button class="restart" type="button">Back to the question</button></div>
+</section>
+</main>
+<script>
+const question=document.getElementById('question');
+const yesButton=document.getElementById('yes');
+const yesAnswer=document.getElementById('yesAnswer');
+const noAnswer=document.getElementById('noAnswer');
+const noButton=document.getElementById('no');
+let escapes=0;
+function show(answer){question.style.display='none';answer.classList.add('show')}
+function growYes(){escapes+=1;yesButton.style.transform=`scale(${1+escapes*.12})`}
+document.getElementById('yes').addEventListener('click',()=>show(yesAnswer));
+noButton.addEventListener('pointerenter',()=>{growYes();const maxX=Math.max(0,window.innerWidth*.42);const maxY=window.innerWidth<=520?42:18;noButton.style.transform=`translate(${Math.random()*maxX*2-maxX}px,${Math.random()*maxY*2-maxY}px)`});
+noButton.addEventListener('click',()=>{growYes();if(escapes>=4)noButton.textContent='Okay, I’ll listen';if(escapes>=5)show(noAnswer)});
+document.querySelectorAll('.restart').forEach(button=>button.addEventListener('click',()=>{question.style.display='';yesAnswer.classList.remove('show');noAnswer.classList.remove('show');noButton.style.transform='';yesButton.style.transform='';noButton.textContent='Not yet';escapes=0}));
+</script>
+</body>
+</html>
