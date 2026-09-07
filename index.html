@@ -57,9 +57,10 @@ const noButton=document.getElementById('no');
 let escapes=0;
 function show(answer){question.style.display='none';answer.classList.add('show')}
 function growYes(){escapes+=1;yesButton.style.transform=`scale(${1+escapes*.12})`}
+function dodgeNo(){const maxX=Math.max(0,window.innerWidth*.42);const maxY=window.innerWidth<=520?42:18;noButton.style.transform=`translate(${Math.random()*maxX*2-maxX}px,${Math.random()*maxY*2-maxY}px)`}
 document.getElementById('yes').addEventListener('click',()=>show(yesAnswer));
-noButton.addEventListener('pointerenter',()=>{growYes();const maxX=Math.max(0,window.innerWidth*.42);const maxY=window.innerWidth<=520?42:18;noButton.style.transform=`translate(${Math.random()*maxX*2-maxX}px,${Math.random()*maxY*2-maxY}px)`});
-noButton.addEventListener('click',()=>{growYes();if(escapes>=4)noButton.textContent='Okay, I’ll listen';if(escapes>=5)show(noAnswer)});
+noButton.addEventListener('pointerenter',()=>{growYes();dodgeNo()});
+noButton.addEventListener('click',()=>{growYes();dodgeNo();if(escapes>=4)noButton.textContent='Okay, I’ll listen';if(escapes>=5)show(noAnswer)});
 document.querySelectorAll('.restart').forEach(button=>button.addEventListener('click',()=>{question.style.display='';yesAnswer.classList.remove('show');noAnswer.classList.remove('show');noButton.style.transform='';yesButton.style.transform='';noButton.textContent='Not yet';escapes=0}));
 </script>
 </body>
