@@ -33,7 +33,7 @@ button{font:700 13px 'DM Sans',sans-serif;border:0;border-radius:14px;padding:14
 .restart{margin-top:24px;background:transparent;color:var(--rose-dark);border:1px solid var(--line);padding:10px 18px;font-size:12px}
 .petals{position:absolute;inset:0;overflow:hidden;pointer-events:none}.petal{position:absolute;top:-30px;width:12px;height:12px;border-radius:50% 50% 50% 0;background:rgba(233,137,131,.62);animation:fall linear infinite}.petal:nth-child(1){left:8%;animation-duration:9s;animation-delay:-2s}.petal:nth-child(2){left:23%;animation-duration:12s;animation-delay:-8s;transform:scale(.7)}.petal:nth-child(3){left:47%;animation-duration:10s;animation-delay:-4s;transform:scale(1.2)}.petal:nth-child(4){left:72%;animation-duration:13s;animation-delay:-10s;transform:scale(.65)}.petal:nth-child(5){left:91%;animation-duration:8s;animation-delay:-5s}
 @keyframes fall{to{top:110%;transform:translateX(100px) rotate(480deg)}}@keyframes appear{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-@media(max-width:520px){.scene{padding:16px}.card{padding:36px 22px}.buttons{flex-direction:column;min-height:122px}.buttons button{width:min(100%,240px)}.promise{gap:12px}h1{font-size:52px}}
+@media(max-width:520px){.scene{padding:12px}.card{width:100%;padding:32px 18px;border-radius:22px}.card:before{top:12px;left:16px}.card:after{bottom:12px;right:16px}.scene:before{top:4%;right:5%;font-size:54px}h1{font-size:clamp(42px,14vw,52px);margin-top:16px}.intro{font-size:14px}.promise{gap:10px;margin:22px 0 26px}.buttons{flex-direction:column;gap:14px;min-height:132px}.buttons button{width:min(100%,240px)}#no{top:0}.fineprint{margin-top:18px}}
 </style>
 </head>
 <body>
@@ -57,10 +57,10 @@ const noButton=document.getElementById('no');
 let escapes=0;
 function show(answer){question.style.display='none';answer.classList.add('show')}
 function growYes(){escapes+=1;yesButton.style.transform=`scale(${1+escapes*.12})`}
-function dodgeNo(){const maxX=Math.max(0,window.innerWidth*.42);const maxY=window.innerWidth<=520?42:18;noButton.style.transform=`translate(${Math.random()*maxX*2-maxX}px,${Math.random()*maxY*2-maxY}px)`}
+function dodgeNo(){const isMobile=window.innerWidth<=520;const maxX=isMobile?Math.min(36,Math.max(0,(window.innerWidth-32-240)/2)):Math.max(0,window.innerWidth*.42);const maxY=isMobile?24:18;noButton.style.transform=`translate(${Math.random()*maxX*2-maxX}px,${Math.random()*maxY*2-maxY}px)`}
 document.getElementById('yes').addEventListener('click',()=>show(yesAnswer));
 noButton.addEventListener('pointerenter',()=>{growYes();dodgeNo()});
-noButton.addEventListener('click',()=>{growYes();dodgeNo();if(escapes>=4)noButton.textContent='Okay, I’ll listen';if(escapes>=5)show(noAnswer)});
+noButton.addEventListener('click',()=>{growYes();dodgeNo();if(escapes>=4)noButton.textContent='Okay, I’ll listen'});
 document.querySelectorAll('.restart').forEach(button=>button.addEventListener('click',()=>{question.style.display='';yesAnswer.classList.remove('show');noAnswer.classList.remove('show');noButton.style.transform='';yesButton.style.transform='';noButton.textContent='Not yet';escapes=0}));
 </script>
 </body>
